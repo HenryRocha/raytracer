@@ -1,7 +1,7 @@
 default: build run open-image
 
 raytracer: src/*
-	g++ src/main.cpp -o raytracer
+	g++ -Wall -O3 -g3 src/main.cpp -o raytracer
 
 build: raytracer
 
