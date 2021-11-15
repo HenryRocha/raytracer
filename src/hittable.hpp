@@ -2,10 +2,14 @@
 
 #include "ray.hpp"
 #include "vec3.hpp"
+#include "rtweekend.hpp"
+
+class material;
 
 struct hit_record {
     point3 p;
     point3 normal;
+    shared_ptr<material> mat_ptr;
     double t;
     bool front_face;
 
