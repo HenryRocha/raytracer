@@ -40,22 +40,10 @@ int main()
     const int samples_per_pixel = 100;
     const int max_depth = 50;
     
-    // Camera settings.
-    const auto viewport_height = 2.0;
-    const auto viewport_width = aspect_ratio * viewport_height;
-    const auto focal_length = 1.0;
-
-    // Camera position.
-    camera cam;
-    const auto origin = point3(0, 0, 0);
-    auto horizontal = vec3(viewport_width, 0, 0);
-    auto vertical = vec3(0, viewport_height, 0);
-    auto lower_left_corner = origin - horizontal / 2 - vertical / 2 - vec3(0, 0, focal_length);
-
     // World settings and init.
+    auto R = cos(pi/4);
     hittable_list world;
 
-    // Material settings.
     auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
     auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
     auto material_left   = make_shared<dielectric>(1.5);
@@ -64,8 +52,20 @@ int main()
     world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0, material_ground));
     world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.0),   0.5, material_center));
     world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),   0.5, material_left));
-    world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),  -0.4, material_left));
+    world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0), -0.45, material_left));
     world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5, material_right));
+
+    // Camera settings.
+    const auto viewport_height = 2.0;
+    const auto viewport_width = aspect_ratio * viewport_height;
+    const auto focal_length = 1.0;
+
+    // Camera position.
+    camera cam(point3(-2,2,1), point3(0,0,-1), vec3(0,1,0), 20, aspect_ratio);
+    const auto origin = point3(0, 0, 0);
+    auto horizontal = vec3(viewport_width, 0, 0);
+    auto vertical = vec3(0, viewport_height, 0);
+    auto lower_left_corner = origin - horizontal / 2 - vertical / 2 - vec3(0, 0, focal_length);
 
     // Create output image.
     std::ofstream image_file;
