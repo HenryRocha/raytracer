@@ -35,6 +35,15 @@ color ray_color(const ray &r, const hittable &world, int depth)
     return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
 }
 
+hittable_list earth()
+{
+    auto earth_texture = make_shared<image_texture>("earthmap.jpg");
+    auto earth_surface = make_shared<lambertian>(earth_texture);
+    auto globe = make_shared<sphere>(point3(0, 0, 0), 2, earth_surface);
+
+    return hittable_list(globe);
+}
+
 int main()
 {
     // Image settings.
@@ -45,35 +54,35 @@ int main()
     const int max_depth = 50;
 
     // World settings and init.
-    hittable_list world;
+    hittable_list world = earth();
 
-    auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
-    auto mat_red = make_shared<lambertian>(color(1.0, 0.0, 0.0));
-    auto mat_green = make_shared<lambertian>(color(0.0, 1.0, 0.0));
-    auto mat_blue = make_shared<lambertian>(color(0.0, 0.0, 1.0));
-    auto mat_metal = make_shared<metal>(color(0.8, 0.8, 0.8), 0.3);
+    // auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
+    // auto mat_red = make_shared<lambertian>(color(1.0, 0.0, 0.0));
+    // auto mat_green = make_shared<lambertian>(color(0.0, 1.0, 0.0));
+    // auto mat_blue = make_shared<lambertian>(color(0.0, 0.0, 1.0));
+    // auto mat_metal = make_shared<metal>(color(0.8, 0.8, 0.8), 0.3);
 
-    auto checker = make_shared<checker_texture>(color(0.2, 0.3, 0.1), color(0.9, 0.9, 0.9));
-    world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, make_shared<lambertian>(checker)));
+    // auto checker = make_shared<checker_texture>(color(0.2, 0.3, 0.1), color(0.9, 0.9, 0.9));
+    // world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, make_shared<lambertian>(checker)));
     // world.add(make_shared<sphere>(point3(0.0, 0.0, 0.0), 0.5, mat_blue));
     // world.add(make_shared<sphere>(point3(-1.0, 0.0, 0.0), 0.5, mat_red));
     // world.add(make_shared<sphere>(point3( -1.0,    0.0, -1.0),  0.5, mat_metal));
 
-    world.add(make_shared<pyramid>(
-        point3(0.0, 0, 0.0), 1.0, 0.5,
-        mat_green,
-        mat_red,
-        mat_blue,
-        mat_red,
-        mat_blue));
+    // world.add(make_shared<pyramid>(
+    //     point3(0.0, 0, 0.0), 1.0, 0.5,
+    //     mat_green,
+    //     mat_red,
+    //     mat_blue,
+    //     mat_red,
+    //     mat_blue));
 
-    world.add(make_shared<pyramid>(
-        point3(1.0, 0, 0.0), 1.0, 0.5,
-        mat_green,
-        mat_red,
-        mat_blue,
-        mat_red,
-        mat_blue));
+    // world.add(make_shared<pyramid>(
+    //     point3(1.0, 0, 0.0), 1.0, 0.5,
+    //     mat_green,
+    //     mat_red,
+    //     mat_blue,
+    //     mat_red,
+    //     mat_blue));
 
     // Camera settings.
     const auto viewport_height = 2.0;
@@ -81,12 +90,13 @@ int main()
     const auto focal_length = 1.0;
 
     // Camera position.
-    point3 lookfrom(0, 2, 5);
+    point3 lookfrom(13, 2, 3);
     point3 lookat(0, 0, 0);
     vec3 vup(0, 1, 0);
     auto dist_to_focus = (lookfrom - lookat).length();
     auto aperture = 2.0;
-    camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus);
+    auto vfov = 20.0;
+    camera cam(lookfrom, lookat, vup, vfov, aspect_ratio, aperture, dist_to_focus);
 
     const auto origin = point3(0, 0, 0);
     auto horizontal = vec3(viewport_width, 0, 0);
