@@ -37,9 +37,9 @@ color ray_color(const ray &r, const hittable &world, int depth)
 
 hittable_list earth()
 {
-    auto earth_texture = make_shared<image_texture>("earthmap.jpg");
+    auto earth_texture = make_shared<image_texture>("rickroll.png");
     auto earth_surface = make_shared<lambertian>(earth_texture);
-    auto globe = make_shared<sphere>(point3(0, 0, 0), 2, earth_surface);
+    auto globe = make_shared<sphere>(point3(0, 1, 0), 2, earth_surface);
 
     return hittable_list(globe);
 }
@@ -56,33 +56,8 @@ int main()
     // World settings and init.
     hittable_list world = earth();
 
-    // auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
-    // auto mat_red = make_shared<lambertian>(color(1.0, 0.0, 0.0));
-    // auto mat_green = make_shared<lambertian>(color(0.0, 1.0, 0.0));
-    // auto mat_blue = make_shared<lambertian>(color(0.0, 0.0, 1.0));
-    // auto mat_metal = make_shared<metal>(color(0.8, 0.8, 0.8), 0.3);
-
-    // auto checker = make_shared<checker_texture>(color(0.2, 0.3, 0.1), color(0.9, 0.9, 0.9));
-    // world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, make_shared<lambertian>(checker)));
-    // world.add(make_shared<sphere>(point3(0.0, 0.0, 0.0), 0.5, mat_blue));
-    // world.add(make_shared<sphere>(point3(-1.0, 0.0, 0.0), 0.5, mat_red));
-    // world.add(make_shared<sphere>(point3( -1.0,    0.0, -1.0),  0.5, mat_metal));
-
-    // world.add(make_shared<pyramid>(
-    //     point3(0.0, 0, 0.0), 1.0, 0.5,
-    //     mat_green,
-    //     mat_red,
-    //     mat_blue,
-    //     mat_red,
-    //     mat_blue));
-
-    // world.add(make_shared<pyramid>(
-    //     point3(1.0, 0, 0.0), 1.0, 0.5,
-    //     mat_green,
-    //     mat_red,
-    //     mat_blue,
-    //     mat_red,
-    //     mat_blue));
+    auto checker = make_shared<checker_texture>(color(0.2, 0.3, 0.1), color(0.9, 0.9, 0.9));
+    world.add(make_shared<sphere>(point3(0, -1005, 0), 1000, make_shared<lambertian>(checker)));
 
     // Camera settings.
     const auto viewport_height = 2.0;
@@ -93,7 +68,7 @@ int main()
     point3 lookfrom(13, 2, 3);
     point3 lookat(0, 0, 0);
     vec3 vup(0, 1, 0);
-    auto dist_to_focus = 10.0;
+    auto dist_to_focus = 100.0;
     auto aperture = 0.1;
     auto vfov = 20.0;
     camera cam(lookfrom, lookat, vup, vfov, aspect_ratio, aperture, dist_to_focus);
