@@ -93,8 +93,8 @@ int main()
     point3 lookfrom(13, 2, 3);
     point3 lookat(0, 0, 0);
     vec3 vup(0, 1, 0);
-    auto dist_to_focus = (lookfrom - lookat).length();
-    auto aperture = 2.0;
+    auto dist_to_focus = 10.0;
+    auto aperture = 0.1;
     auto vfov = 20.0;
     camera cam(lookfrom, lookat, vup, vfov, aspect_ratio, aperture, dist_to_focus);
 
