@@ -53,7 +53,8 @@ int main()
     auto mat_blue = make_shared<lambertian>(color(0.0, 0.0, 1.0));
     auto mat_metal = make_shared<metal>(color(0.8, 0.8, 0.8), 0.3);
 
-    // world.add(make_shared<sphere>(point3(0.0, -100.5, -1.0), 100.0, material_ground));
+    auto checker = make_shared<checker_texture>(color(0.2, 0.3, 0.1), color(0.9, 0.9, 0.9));
+    world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, make_shared<lambertian>(checker)));
     // world.add(make_shared<sphere>(point3(0.0, 0.0, 0.0), 0.5, mat_blue));
     // world.add(make_shared<sphere>(point3(-1.0, 0.0, 0.0), 0.5, mat_red));
     // world.add(make_shared<sphere>(point3( -1.0,    0.0, -1.0),  0.5, mat_metal));
